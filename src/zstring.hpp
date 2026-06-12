@@ -5,28 +5,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-class string {
+class zstring {
 public:
     constexpr static size_t sso_capacity = 23;
 
-    string() = default;
-    explicit string(const char* s) { assign(s, strlen(s) + 1); }
-    string(size_t n_ch, char ch = '\0') { assign(n_ch + 1, ch); }
+    zstring() = default;
+    explicit zstring(const char* s) { assign(s, strlen(s) + 1); }
+    zstring(size_t n_ch, char ch = '\0') { assign(n_ch + 1, ch); }
 
-    string(const string& other) {
+    zstring(const zstring& other) {
         if (other.is_on_heap()) heap_assign(other.data(), other.size());
         else memcpy(&storage, &other.storage, sizeof(storage));
     }
-    string& operator=(const string& other) {
+    zstring& operator=(const zstring& other) {
         if (this != &other) assign(other.data(), other.size());
         return *this;
     }
 
-    string(string&& other) noexcept {
+    zstring(zstring&& other) noexcept {
         memcpy(&storage, &other.storage, sizeof(storage));
         other = "";
     }
-    string& operator=(string&& other) noexcept {
+    zstring& operator=(zstring&& other) noexcept {
         if (this != &other) {
             if (is_on_heap()) {
                 free_heap_ptr_sized_dirty();
@@ -37,7 +37,7 @@ public:
         return *this;
     }
 
-    string& operator=(const char* s) {
+    zstring& operator=(const char* s) {
         assign(s, strlen(s) + 1);
         return *this;
     }
@@ -86,7 +86,7 @@ public:
 
     bool is_on_heap() const { return get_mode_bit() == 1; }
 
-    ~string() {
+    ~zstring() {
         if (is_on_heap()) {
             free_heap_ptr_sized_dirty();
         }
@@ -225,7 +225,7 @@ private:
 public:
     class sso_storage {
         unsigned char size_;
-        char buf_[string::sso_capacity];
+        char buf_[zstring::sso_capacity];
 
     public:
         size_t size() const { return size_; }
@@ -278,4 +278,4 @@ private:
     } storage{};
 };
 
-#endif // _NZD_STRING_HPP_
+#endif  // _NZD_STRING_HPP_
