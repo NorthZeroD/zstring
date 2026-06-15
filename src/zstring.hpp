@@ -1,5 +1,5 @@
-#ifndef _NZD_STRING_HPP_
-#define _NZD_STRING_HPP_ 1
+#ifndef _ZSTRING_HPP_
+#define _ZSTRING_HPP_ 1
 
 #include <assert.h>
 #include <stdlib.h>
