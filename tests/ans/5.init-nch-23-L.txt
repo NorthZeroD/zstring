@@ -1,0 +1,4 @@
+data|LLLLLLLLLLLLLLLLLLLLLLL|
+size|23|
+capacity|23|
+is_on_heap|1|
